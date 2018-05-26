@@ -1,0 +1,12 @@
+.game {
+  background: #ececec;
+  width: 500px;
+  height: 500px;
+  position: relative;
+}
+
+.player {
+  width: 10px;
+  height: 10px;
+  background: #f9a000;
+}

@@ -3,8 +3,8 @@ import React from "react";
 export default ({ state }) => {
   const playerStyle = {
     position: "absolute",
-    top: `${state.player.position.x}px`,
-    left: `${state.player.position.y}px`
+    top: `${state.player.position.y}px`,
+    left: `${state.player.position.x}px`
   };
 
   return (

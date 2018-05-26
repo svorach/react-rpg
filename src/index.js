@@ -4,7 +4,7 @@ import Game from "./Game";
 
 import styles from "../styles/game.css";
 
-const clamp = (min, max, val, offset) => {
+const clamp = (min, max, val, offset = 0) => {
   let nextVal;
 
   if (val <= min) {
@@ -31,6 +31,7 @@ class App extends Component {
     this.width = 500;
     this.height = 500;
     this.playerSize = 10;
+    this.playerSpeed = 20;
 
     this.movePlayer = this.movePlayer.bind(this);
     this.keyMap = {};
@@ -46,38 +47,39 @@ class App extends Component {
   }
 
   movePlayer(e) {
-    let move;
+    let move = { x: 0, y: 0 };
+    let speed = this.playerSpeed;
 
     this.keyMap[e.key] = true;
 
-    console.log(this.keyMap);
-
-    let o;
-
     Object.keys(this.keyMap).forEach(key => {
-      console.log(key);
+      switch (key) {
+        case "ArrowUp":
+          move.y = move.y || this.playerSpeed * -1;
+          break;
+        case "ArrowDown":
+          move.y = move.y || this.playerSpeed;
+          break;
+        case "ArrowRight":
+          move.x = move.x || this.playerSpeed;
+          break;
+        case "ArrowLeft":
+          move.x = move.x || this.playerSpeed * -1;
+          break;
+        default:
+          break;
+      }
     });
 
-    switch (e.key) {
-      case "ArrowUp":
-        move = [0, -10];
-        break;
-      case "ArrowDown":
-        move = [0, 10];
-        break;
-      case "ArrowRight":
-        move = [10, 0];
-        break;
-      case "ArrowLeft":
-        move = [-10, 0];
-        break;
-      default:
-        break;
-    }
-
-    const currentPos = this.state.player.position;
-    const x = clamp(0, this.width, currentPos[0] + move[0], this.playerSize);
-    const y = clamp(0, this.height, currentPos[1] + move[1], this.playerSize);
+    const currentPosition = this.state.player.position;
+    console.log(currentPosition);
+    const x = clamp(0, this.width, currentPosition.x + move.x, this.playerSize);
+    const y = clamp(
+      0,
+      this.height,
+      currentPosition.y + move.y,
+      this.playerSize
+    );
 
     this.setState({
       player: {
